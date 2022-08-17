@@ -12,7 +12,8 @@ export const LoginPage:React.FunctionComponent = () => {
     <div className={styles["login-card"]}>
       <form
         className={styles["login-elements"]}
-        onSubmit={() => {
+        onSubmit={(event) => {
+          event.preventDefault();
           handleSubmit(login, password);
         }}
       >

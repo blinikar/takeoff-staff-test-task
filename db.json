@@ -1,7 +1,7 @@
 {
   "users": [
-    { "id": "blinikar", "password": "blinikar" },
-    { "id": "test", "password": "test" }
+    { "id": "blinikar", "password": "password", "cookie": "blinikar" },
+    { "id": "test", "password": "password", "cookie": "test" }
   ],
   "profile": {
     "name": "blinikar"

@@ -1,4 +1,5 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { useMockAuth } from "hooks/useAuth";
 
 export const useLoginPageLogic = () => {
   return {
@@ -11,25 +12,23 @@ export const useLoginPageLogic = () => {
       const [login, setLogin] = useState<string>("");
       const [password, setPassword] = useState<string>("");
 
-      const getHandleInput = (field: "login" | "password") => {
+      const [authStatus, proceedAuth] = useMockAuth();
 
-        let setter: (state: string) => void;
+      useEffect(() => {
+        console.log(authStatus);
+      }, [authStatus])
+
+      const getHandleInput = (field: "login" | "password") => {
         switch (field) {
           case "login":
-            setter = setLogin;
-            break;
+            return (event: FormEvent<HTMLInputElement>) => { setLogin(event.currentTarget.value) }
           case "password":
-            setter = setPassword;
-            break;
-        }
-
-        return (event: FormEvent<HTMLInputElement>) => {
-          setter(event.currentTarget.value);
+            return (event: FormEvent<HTMLInputElement>) => { setPassword(event.currentTarget.value) }
         }
       }
 
       const handleSubmit = (login: string, password: string) => {
-        document.cookie = "bearer-token=hello"
+        proceedAuth(login, password);
       }
 
       return [
