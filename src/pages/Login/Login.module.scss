@@ -16,7 +16,7 @@
 
   margin: 128px auto 0 auto;
 
-  width: 330px;
+  max-width: 330px;
   height: 360px;
 
   background: white;
@@ -67,21 +67,16 @@
       height: 46px;
     }
 
-    input {
-      width: 70%;
-      height: 48px;
 
-      padding-left: 8px;
-
-      font-size: 18px;
-
-      border-radius: 8px;
-      border: black 1px solid;
+    .error-message {
+      color: red;
+      margin: 0;
     }
-    input:focus {
-      outline: none;
-      border-width: 2px;
-    }
+  }
+}
 
+@media screen and (max-width: 512px) {
+  .login-bg {
+    background: white;
   }
 }

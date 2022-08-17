@@ -12,17 +12,20 @@ interface UserData {
 }
 
 export const useMockAuth = ():[
-  result: "success"|"loading"|"error",
+  result: "success"|"loading"|"error"|"idle",
   auth: (login: string, password: string) => void
 ] => {
 
-  const [result, setResult] = useState<"success"|"loading"|"error">("loading");
+  const [result, setResult] = useState<"success"|"loading"|"error"|"idle">("idle");
 
   const auth = (login: string, password: string) => {
+    setResult("loading");
+
     fetch(`https://my-json-server.typicode.com/blinikar/takeoff-staff-test-task/users/${login}`)
       .then((res) => res.text())
       .then((res) => JSON.parse(res) as UserData)
       .then((res) => {
+        console.log(res);
         if (res.password === password) {
           document.cookie = `bearer-token=${res.cookie}`
           setResult("success");

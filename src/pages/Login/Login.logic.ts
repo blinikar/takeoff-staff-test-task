@@ -1,21 +1,38 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useMockAuth } from "hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export const useLoginPageLogic = () => {
   return {
     useLoginForm: ():[
       login: string,
       password: string,
+      error: string,
       getHandleInput: (field: "login" | "password") => (event: FormEvent<HTMLInputElement>) => void,
       handleSubmit: (login: string, password: string) => void
     ] => {
       const [login, setLogin] = useState<string>("");
       const [password, setPassword] = useState<string>("");
+      const [error, setError] = useState<string>("");
 
       const [authStatus, proceedAuth] = useMockAuth();
+      const navigate = useNavigate();
 
       useEffect(() => {
-        console.log(authStatus);
+        switch (authStatus) {
+          case "error":
+            setError("Login failed");
+            break;
+          case "loading":
+            setError("");
+            break;
+          case "success":
+            navigate("/");
+            break;
+          case "idle":
+            setError("");
+            break;
+        }
       }, [authStatus])
 
       const getHandleInput = (field: "login" | "password") => {
@@ -34,9 +51,15 @@ export const useLoginPageLogic = () => {
       return [
         login,
         password,
+        error,
         getHandleInput,
         handleSubmit
       ]
+    },
+    useResetCookie: () => {
+      useEffect(() => {
+        document.cookie = `bearer-token=`;
+      }, [])
     }
   }
 }
